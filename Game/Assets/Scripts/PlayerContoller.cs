@@ -12,6 +12,7 @@ public class PlayerContoller : MonoBehaviour
     Vector2 movement;
     public GameObject player;
     public GameObject slashHitBox;
+    private Animator anim;
 
 
     private bool slashing;
@@ -21,7 +22,7 @@ public class PlayerContoller : MonoBehaviour
 
     void Start()
     {
-
+        anim = GetComponent<Animator>();
     }
 
     private void Update()
@@ -39,15 +40,16 @@ public class PlayerContoller : MonoBehaviour
     void FixedUpdate()
     {
         rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+        anim.SetBool("MovingRight", movement.x == 1f);
+        anim.SetBool("MovingLeft", movement.x == -1f);
+        anim.SetBool("MovingUp", movement.y == 1f);
+        anim.SetBool("MovingDown", movement.y == -1f);
     }
 
     private void StartSlash()
     {
         if (slashing || timeSinceLastAttack > swingTimer)
         {
-            if (timeSinceLastAttack > swingTimer) {
-                Debug.Log("cant swing this soon!");
-                }
             return;
         }
         slashing = true;
@@ -75,7 +77,5 @@ public class PlayerContoller : MonoBehaviour
             slashing = false;
             slashHitBox.SetActive(false);
         }
-
     }
-
 }
