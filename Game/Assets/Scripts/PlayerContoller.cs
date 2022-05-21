@@ -10,7 +10,14 @@ public class PlayerContoller : MonoBehaviour
 
     public Rigidbody2D rb;
     Vector2 movement;
+    public GameObject player;
     public GameObject slashHitBox;
+
+
+    private bool slashing;
+    public float attackDuration = 0.2f;
+    public float swingTimer = 1.5f;
+    private float timeSinceLastAttack = 0f;
 
     void Start()
     {
@@ -23,34 +30,52 @@ public class PlayerContoller : MonoBehaviour
         movement.y = Input.GetAxisRaw("Vertical");
         if (Input.GetMouseButton(0))
         {
-            Slash();
+            StartSlash();
         }
-        UpdateAim();
+        CheckSlash();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
-        //Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-        //float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        
-        //ProcessMovement(angle);
     }
 
-    private void Slash()
+    private void StartSlash()
     {
-        Debug.Log("Slashed Pressed!");
+        if (slashing || timeSinceLastAttack > swingTimer)
+        {
+            if (timeSinceLastAttack > swingTimer) {
+                Debug.Log("cant swing this soon!");
+                }
+            return;
+        }
+        slashing = true;
         Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        slashHitBox.transform.position = player.gameObject.transform.position + (rotation * (Vector3.right * 1f));
         slashHitBox.transform.rotation = rotation;
         slashHitBox.SetActive(true);
     }
 
-    private void UpdateAim()
+    private void CheckSlash()
     {
-
+        if (timeSinceLastAttack > swingTimer)
+        {
+            timeSinceLastAttack = 0f;
+        }
+        if (!slashing)
+        {
+            return;
+        }
+        timeSinceLastAttack += Time.deltaTime;
+        if (timeSinceLastAttack > attackDuration)
+        {
+            slashing = false;
+            slashHitBox.SetActive(false);
+        }
 
     }
+
 }
