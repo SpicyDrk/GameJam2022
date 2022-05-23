@@ -128,7 +128,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: DK with enemy spritesheet_0
+      name: PlayerFront_1
       rect:
         serializedVersion: 2
         x: 37
@@ -149,7 +149,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DK with enemy spritesheet_1
+      name: PlayerFront_2
       rect:
         serializedVersion: 2
         x: 167
@@ -170,7 +170,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DK with enemy spritesheet_2
+      name: PlayerBack_1
       rect:
         serializedVersion: 2
         x: 320
@@ -191,7 +191,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DK with enemy spritesheet_3
+      name: PlayerBack_2
       rect:
         serializedVersion: 2
         x: 463
@@ -212,7 +212,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DK with enemy spritesheet_4
+      name: PlayerBack_3
       rect:
         serializedVersion: 2
         x: 612
@@ -233,7 +233,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DK with enemy spritesheet_5
+      name: PlayerLeft_1
       rect:
         serializedVersion: 2
         x: 41
@@ -254,7 +254,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DK with enemy spritesheet_6
+      name: PlayerLeft_2
       rect:
         serializedVersion: 2
         x: 148
@@ -275,7 +275,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DK with enemy spritesheet_7
+      name: PlayerRight_1
       rect:
         serializedVersion: 2
         x: 302
@@ -296,7 +296,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DK with enemy spritesheet_8
+      name: PlayerRight_2
       rect:
         serializedVersion: 2
         x: 453
@@ -380,7 +380,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DK with enemy spritesheet_18
+      name: Popper_1
       rect:
         serializedVersion: 2
         x: 169
@@ -401,11 +401,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DK with enemy spritesheet_19
+      name: Popper_2
       rect:
         serializedVersion: 2
         x: 297
-        y: 117
+        y: 118
         width: 89
         height: 93
       alignment: 0
@@ -422,7 +422,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DK with enemy spritesheet_20
+      name: Popper_3
       rect:
         serializedVersion: 2
         x: 432
@@ -442,6 +442,90 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Slash_1
+      rect:
+        serializedVersion: 2
+        x: 648
+        y: 143
+        width: 32
+        height: 72
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 60c252daf60c23b44ad858c4007252b0
+      internalID: -1652105593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slash_3
+      rect:
+        serializedVersion: 2
+        x: 738
+        y: 142
+        width: 32
+        height: 72
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bb0d3ea4b1c7f4c4dae0e7a12cbb5c1b
+      internalID: 849475912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slash_4
+      rect:
+        serializedVersion: 2
+        x: 772
+        y: 142
+        width: 32
+        height: 72
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e9f65f4f70d2ab42a600e0cb09a4f63
+      internalID: -1966422538
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slash_2
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 142
+        width: 32
+        height: 72
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 32e05bde24d5e0e45a26138c85d14da4
+      internalID: -306080635
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -453,27 +537,27 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      DK with enemy spritesheet_12: 849475912
-      DK with enemy spritesheet_2: 1945114668
-      DK with enemy spritesheet_6: 1483599141
-      DK with enemy spritesheet_9: -1652105593
-      DK with enemy spritesheet_18: 2143213144
-      DK with enemy spritesheet_19: 835161601
-      DK with enemy spritesheet_5: -1069599268
+      PlayerBack_1: 1945114668
+      Slash_4: -1966422538
+      PlayerRight_2: 322122638
+      PlayerBack_3: -127856276
+      PlayerBack_2: 1540823283
       DK with enemy spritesheet_16: 2024992289
-      DK with enemy spritesheet_0: -228766934
-      DK with enemy spritesheet_15: -306080635
-      DK with enemy spritesheet_8: 322122638
+      Popper_1: 2143213144
+      PlayerLeft_2: 1483599141
+      PlayerRight_1: -983348778
+      Slash_2: -306080635
+      PlayerFront_2: -1235494843
+      PlayerLeft_1: -1069599268
+      Popper_2: 835161601
       DK with enemy spritesheet_14: -909574120
       DK with enemy spritesheet_11: -318782486
-      DK with enemy spritesheet_20: 217345954
-      DK with enemy spritesheet_7: -983348778
       DK with enemy spritesheet_10: 660095587
       DK with enemy spritesheet_17: -843768039
-      DK with enemy spritesheet_1: -1235494843
-      DK with enemy spritesheet_3: 1540823283
-      DK with enemy spritesheet_4: -127856276
-      DK with enemy spritesheet_13: -1966422538
+      PlayerFront_1: -228766934
+      Popper_3: 217345954
+      Slash_3: 849475912
+      Slash_1: -1652105593
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

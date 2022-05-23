@@ -59,3 +59,7 @@ sysinfo.txt
 crashlytics-build.properties
 
 *\Library\*
+
+*.png-autosave.kra
+*.kra~
+*.png~

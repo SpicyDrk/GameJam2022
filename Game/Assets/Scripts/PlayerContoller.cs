@@ -14,7 +14,6 @@ public class PlayerContoller : MonoBehaviour
     public GameObject slashHitBox;
     private Animator anim;
 
-
     private bool slashing;
     public float attackDuration = 0.2f;
     public float swingTimer = 1.5f;
@@ -27,7 +26,7 @@ public class PlayerContoller : MonoBehaviour
 
     private void Update()
     {
-        movement.x=Input.GetAxisRaw("Horizontal");
+        movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
         if (Input.GetMouseButton(0))
         {
@@ -39,7 +38,7 @@ public class PlayerContoller : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+        rb.MovePosition(rb.position + movement.normalized * moveSpeed * Time.fixedDeltaTime);
         anim.SetBool("MovingRight", movement.x == 1f);
         anim.SetBool("MovingLeft", movement.x == -1f);
         anim.SetBool("MovingUp", movement.y == 1f);
@@ -56,7 +55,7 @@ public class PlayerContoller : MonoBehaviour
         Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-        slashHitBox.transform.position = player.gameObject.transform.position + (rotation * (Vector3.right * 1f));
+        slashHitBox.transform.position = player.gameObject.transform.position + (rotation * (Vector3.right));
         slashHitBox.transform.rotation = rotation;
         slashHitBox.SetActive(true);
     }
@@ -79,3 +78,4 @@ public class PlayerContoller : MonoBehaviour
         }
     }
 }
+
