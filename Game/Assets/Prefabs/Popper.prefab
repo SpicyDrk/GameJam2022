@@ -246,7 +246,7 @@ GameObject:
   - component: {fileID: 9081178779423658457}
   - component: {fileID: 943081644}
   - component: {fileID: 859838445}
-  - component: {fileID: 1367807055718070561}
+  - component: {fileID: 5904536707486494398}
   m_Layer: 0
   m_Name: Popper
   m_TagString: enemy
@@ -336,10 +336,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   knockbackDistance: 10
   hitboxCooldown: 0.3
-  player: {fileID: 0}
   startingHp: 100
   maxSpeed: 3
   healthBar: {fileID: 7007592622239206600}
+  healthBarBackground: {fileID: 6842558553720703035}
 --- !u!50 &943081644
 Rigidbody2D:
   serializedVersion: 4
@@ -381,8 +381,8 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!60 &1367807055718070561
-PolygonCollider2D:
+--- !u!58 &5904536707486494398
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -395,34 +395,5 @@ PolygonCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.7416667, y: 0.775}
-    newSize: {x: 0.73333335, y: 0.73333335}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.31250003, y: -0.112500004}
-      - {x: 0.2541667, y: -0.029166669}
-      - {x: -0.087500006, y: 0.31250003}
-      - {x: -0.0625, y: 0.38750002}
-      - {x: -0.3625, y: 0.38750002}
-      - {x: -0.37083337, y: 0.3625}
-      - {x: -0.37083337, y: 0.27916667}
-      - {x: -0.2541667, y: 0.23750001}
-      - {x: -0.19583334, y: -0.27916667}
-      - {x: -0.16250001, y: -0.38750002}
-      - {x: 0.029166669, y: -0.38750002}
-      - {x: 0.3541667, y: -0.37083337}
-      - {x: 0.37083337, y: -0.34583336}
-      - {x: 0.37083337, y: -0.2125}
-    - - {x: -0.020833334, y: -0.2125}
-      - {x: 0.057036206, y: -0.15584514}
-      - {x: 0.12421493, y: -0.2629288}
-    - - {x: 0.16450782, y: -0.03480737}
-      - {x: 0.27916667, y: -0.20416668}
-      - {x: 0.23750001, y: -0.20416668}
+  serializedVersion: 2
+  m_Radius: 0.3875
