@@ -249,7 +249,7 @@ GameObject:
   - component: {fileID: 7190108146874073309}
   m_Layer: 0
   m_Name: Cucumber
-  m_TagString: enemy
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -336,7 +336,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   knockbackDistance: 10
   hitboxCooldown: 0.3
-  player: {fileID: 0}
   startingHp: 100
   maxSpeed: 3
   healthBar: {fileID: 7007592622239206600}

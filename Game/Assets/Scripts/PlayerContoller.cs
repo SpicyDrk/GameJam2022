@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerContoller : MonoBehaviour
 {
+    [SerializeField] GameManager gameManager;
 
     public float moveSpeed = 5f;
 
@@ -12,15 +13,24 @@ public class PlayerContoller : MonoBehaviour
     Vector2 movement;
     public GameObject player;
     public GameObject slashHitBox;
+    [SerializeField] GameObject swingTimerGO;
     private Animator anim;
 
-    private bool slashing;
-    public float attackDuration = 0.2f;
-    public float swingTimer = 1.5f;
-    private float timeSinceLastAttack = 0f;
+    private float timeSinceLastDamaged = 10f;
+    private float playerHitCooldown = 1f; // invulnerability time after getting hit
+
+    private float timeSinceLastAttack = 10f;
+    private bool attackOnCooldown = false;
+
+
+    public float attackDuration = 0.1f;
+    public float swingTimer = 2f;    
+    public float attackDamage = 10f;
+    public float hp = 100f;
 
     void Start()
     {
+        gameManager = FindObjectOfType(typeof(GameManager)) as GameManager;
         anim = GetComponent<Animator>();
     }
 
@@ -35,46 +45,65 @@ public class PlayerContoller : MonoBehaviour
         CheckSlash();
     }
 
+    private void OnCollisionEnter2D(Collision2D target)
+    {
+        if (target.gameObject.CompareTag("Enemy") && timeSinceLastDamaged > playerHitCooldown)
+        {
+            var damageAmmount = 10f;
+            hp = (hp - damageAmmount) <= 0f ? 0f : hp - damageAmmount;
+            gameManager.SetHp(hp);
+        }
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
-        rb.MovePosition(rb.position + movement.normalized * moveSpeed * Time.fixedDeltaTime);
+        rb.MovePosition(rb.position + moveSpeed * Time.fixedDeltaTime * movement.normalized);
         anim.SetBool("MovingRight", movement.x == 1f);
         anim.SetBool("MovingLeft", movement.x == -1f);
         anim.SetBool("MovingUp", movement.y == 1f);
         anim.SetBool("MovingDown", movement.y == -1f);
     }
 
+    private void LateUpdate()
+    {
+        UpdateSwingTimer();
+    }
+
     private void StartSlash()
     {
-        if (slashing || timeSinceLastAttack > swingTimer)
+        if (attackOnCooldown)
         {
             return;
         }
-        slashing = true;
+        attackOnCooldown = true;
         Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         slashHitBox.transform.position = player.gameObject.transform.position + (rotation * (Vector3.right));
         slashHitBox.transform.rotation = rotation;
+        timeSinceLastAttack = 0f;
         slashHitBox.SetActive(true);
     }
 
     private void CheckSlash()
     {
+        timeSinceLastAttack += Time.deltaTime;
         if (timeSinceLastAttack > swingTimer)
         {
-            timeSinceLastAttack = 0f;
+            attackOnCooldown = false;
         }
-        if (!slashing)
-        {
-            return;
-        }
-        timeSinceLastAttack += Time.deltaTime;
         if (timeSinceLastAttack > attackDuration)
         {
-            slashing = false;
             slashHitBox.SetActive(false);
+        }
+    }
+
+    private void UpdateSwingTimer()
+    {
+        if (attackOnCooldown)
+        {
+            swingTimerGO.transform.localScale = new Vector3(timeSinceLastAttack / swingTimer, 1f, 1f);
         }
     }
 }
