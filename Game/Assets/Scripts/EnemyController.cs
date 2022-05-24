@@ -57,7 +57,7 @@ public class EnemyController : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D col)
     {
-        if (col.tag == "enemy" && !dying)
+        if (col.tag == "Enemy" && !dying)
         {
             transform.position = Vector3.MoveTowards(transform.position, col.transform.position, -.01f);
         }
