@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerContoller : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
-    [SerializeField] GameManager gameManager;
+    [SerializeField] UIManager uiManager;
 
     public float moveSpeed = 5f;
 
@@ -28,9 +28,13 @@ public class PlayerContoller : MonoBehaviour
     public float attackDamage = 10f;
     public float hp = 100f;
 
+    private float currentExp = 0f;
+    private float expToLevel = 100f;
+    private float expScaling = 1.1f; 
+
     void Start()
     {
-        gameManager = FindObjectOfType(typeof(GameManager)) as GameManager;
+        uiManager = FindObjectOfType(typeof(UIManager)) as UIManager;
         anim = GetComponent<Animator>();
     }
 
@@ -43,17 +47,10 @@ public class PlayerContoller : MonoBehaviour
             StartSlash();
         }
         CheckSlash();
+        timeSinceLastDamaged += Time.deltaTime;
     }
 
-    private void OnCollisionEnter2D(Collision2D target)
-    {
-        if (target.gameObject.CompareTag("Enemy") && timeSinceLastDamaged > playerHitCooldown)
-        {
-            var damageAmmount = 10f;
-            hp = (hp - damageAmmount) <= 0f ? 0f : hp - damageAmmount;
-            gameManager.SetHp(hp);
-        }
-    }
+
 
     // Update is called once per frame
     void FixedUpdate()
@@ -68,6 +65,17 @@ public class PlayerContoller : MonoBehaviour
     private void LateUpdate()
     {
         UpdateSwingTimer();
+    }
+
+    private void OnTriggerStay2D(Collider2D target)
+    {
+        if (target.gameObject.CompareTag("Enemy") && timeSinceLastDamaged > playerHitCooldown)
+        {
+            var damageAmmount = 10f;
+            hp = (hp - damageAmmount) <= 0f ? 0f : hp - damageAmmount;
+            uiManager.SetHp(hp);
+            timeSinceLastDamaged = 0f;
+        }
     }
 
     private void StartSlash()
@@ -106,5 +114,31 @@ public class PlayerContoller : MonoBehaviour
             swingTimerGO.transform.localScale = new Vector3(timeSinceLastAttack / swingTimer, 1f, 1f);
         }
     }
+    public void GainExp(float expGained)
+    {
+        currentExp += expGained;
+        float expPct;
+        if (currentExp > expToLevel)
+        {
+            expPct = LevelUp();
+        }  
+        else
+        {
+            expPct = currentExp / expToLevel;
+        }
+        uiManager.SetExpAsPercent(expPct);
+    }
+
+    /*
+     * levels up and returns remaining exp;.
+     */
+    private float  LevelUp()
+    {
+        currentExp -= expToLevel;
+        expToLevel *= expScaling;
+        attackDamage = 100;
+        return currentExp / expToLevel;
+    }
+
 }
 

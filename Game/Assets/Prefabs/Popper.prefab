@@ -337,7 +337,7 @@ MonoBehaviour:
   knockbackDistance: 10
   hitboxCooldown: 0.3
   startingHp: 100
-  maxSpeed: 3
+  maxSpeed: 3.3
   healthBar: {fileID: 7007592622239206600}
   healthBarBackground: {fileID: 6842558553720703035}
 --- !u!50 &943081644
