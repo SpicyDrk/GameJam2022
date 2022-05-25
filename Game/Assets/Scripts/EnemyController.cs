@@ -1,9 +1,10 @@
-using Unity.Mathematics;
+
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
     private SpriteRenderer sr;
+    private PlayerController playerController;
     private float timeSinceLastHit = 100f;
     private bool moving = true;
     private Rigidbody2D rb;
@@ -32,6 +33,7 @@ public class EnemyController : MonoBehaviour
     {
         SetScreenBounds();
         player = GameObject.FindGameObjectWithTag("Player");
+        playerController = player.GetComponent<PlayerController>();
         hp = startingHp;
         sr = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
@@ -45,7 +47,7 @@ public class EnemyController : MonoBehaviour
         {
             sr.material.SetFloat("_FlashAmount", 1f);
             timeSinceLastHit = 0f;
-            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, maxSpeed * Time.deltaTime * knockbackDistance * -1f);
+            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, maxSpeed * Time.deltaTime * knockbackDistance * Random.Range(-0.5f, -1.5f));
             hp -= 20f;
             if (hp<= 0f)
             {
@@ -59,7 +61,7 @@ public class EnemyController : MonoBehaviour
     {
         if (col.tag == "Enemy" && !dying)
         {
-            transform.position = Vector3.MoveTowards(transform.position, col.transform.position, -.01f);
+            transform.position = Vector3.MoveTowards(transform.position, col.transform.position, -.02f);
         }
     }
 
@@ -73,6 +75,7 @@ public class EnemyController : MonoBehaviour
         healthBar.SetActive(false);
         healthBarBackground.SetActive(false);
         sr.material.SetFloat("_FlashAmount", 0f);
+        playerController.GainExp(10f);
     }
 
     void Update()
@@ -118,22 +121,22 @@ public class EnemyController : MonoBehaviour
         
         if (transform.position.x - player.transform.position.x  < minX)
         {
-            var randomyY = UnityEngine.Random.Range(minY + transform.position.y + 1f, maxY + transform.position.y - 1f);
+            var randomyY = Random.Range(minY + transform.position.y + 1f, maxY + transform.position.y - 1f);
             transform.position = new Vector2(maxX + player.transform.position.x -1f, randomyY);
         }
         if (transform.position.x - player.transform.position.x > maxX)
         {
-            var randomyY = UnityEngine.Random.Range(minY + transform.position.y + 1f, maxY + transform.position.y-1f);
+            var randomyY = Random.Range(minY + transform.position.y + 1f, maxY + transform.position.y-1f);
             transform.position = new Vector2(minX + player.transform.position.x + 1f, randomyY);
         }
         if (transform.position.y - player.transform.position.y < minY)
         {
-            var randomX = UnityEngine.Random.Range(minX + transform.position.x + 1f, maxX + transform.position.x - 1f);
+            var randomX = Random.Range(minX + transform.position.x + 1f, maxX + transform.position.x - 1f);
             transform.position = new Vector2(randomX, maxY + player.transform.position.y - 1f);
         }
         if (transform.position.y - player.transform.position.y > maxY)
         {
-            var randomX = UnityEngine.Random.Range(minX + transform.position.x + 1f, maxX + transform.position.x - 1f);
+            var randomX = Random.Range(minX + transform.position.x + 1f, maxX + transform.position.x - 1f);
             transform.position = new Vector2(randomX, minY + player.transform.position.y + 1f);
         }
     }
