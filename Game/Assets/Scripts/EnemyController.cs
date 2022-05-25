@@ -31,8 +31,8 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SetScreenBounds();
         player = GameObject.FindGameObjectWithTag("Player");
+        SetScreenBounds();        
         playerController = player.GetComponent<PlayerController>();
         hp = startingHp;
         sr = GetComponent<SpriteRenderer>();
@@ -124,17 +124,17 @@ public class EnemyController : MonoBehaviour
             var randomyY = Random.Range(minY + transform.position.y + 1f, maxY + transform.position.y - 1f);
             transform.position = new Vector2(maxX + player.transform.position.x -1f, randomyY);
         }
-        if (transform.position.x - player.transform.position.x > maxX)
+         else if (transform.position.x - player.transform.position.x > maxX)
         {
             var randomyY = Random.Range(minY + transform.position.y + 1f, maxY + transform.position.y-1f);
             transform.position = new Vector2(minX + player.transform.position.x + 1f, randomyY);
         }
-        if (transform.position.y - player.transform.position.y < minY)
+        else if (transform.position.y - player.transform.position.y < minY)
         {
             var randomX = Random.Range(minX + transform.position.x + 1f, maxX + transform.position.x - 1f);
             transform.position = new Vector2(randomX, maxY + player.transform.position.y - 1f);
         }
-        if (transform.position.y - player.transform.position.y > maxY)
+        else if (transform.position.y - player.transform.position.y > maxY)
         {
             var randomX = Random.Range(minX + transform.position.x + 1f, maxX + transform.position.x - 1f);
             transform.position = new Vector2(randomX, minY + player.transform.position.y + 1f);
@@ -162,9 +162,9 @@ public class EnemyController : MonoBehaviour
     void SetScreenBounds()
     {
         Vector3 bounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
-        maxX = bounds.x + extendedBounds;
-        minX = -bounds.x - extendedBounds;
-        minY = -bounds.y - extendedBounds;
-        maxY = bounds.y + extendedBounds;
+        maxX = bounds.x + extendedBounds - player.transform.position.x;
+        minX = -bounds.x - extendedBounds + player.transform.position.x;
+        minY = -bounds.y - extendedBounds + player.transform.position.y;
+        maxY = bounds.y + extendedBounds - player.transform.position.y;
     }
 }
