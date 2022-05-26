@@ -12,6 +12,7 @@ public class EnemyController : MonoBehaviour
     private Animator anim;
     private CircleCollider2D cCollider;
     private GameObject player;
+    
 
     private float timeToLiveAfterDeath = 3f;
 
@@ -22,6 +23,7 @@ public class EnemyController : MonoBehaviour
     public float startingHp = 100f;
     public float maxSpeed = 3f;
 
+    [SerializeField] PlayerController playerCtrl;
     [SerializeField] GameObject healthBar, healthBarBackground;
     private float hp;
 
@@ -31,7 +33,9 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
         player = GameObject.FindGameObjectWithTag("Player");
+        playerCtrl = player.GetComponent<PlayerController>();
         SetScreenBounds();        
         playerController = player.GetComponent<PlayerController>();
         hp = startingHp;
@@ -48,7 +52,7 @@ public class EnemyController : MonoBehaviour
             sr.material.SetFloat("_FlashAmount", 1f);
             timeSinceLastHit = 0f;
             transform.position = Vector3.MoveTowards(transform.position, player.transform.position, maxSpeed * Time.deltaTime * knockbackDistance * Random.Range(-0.5f, -1.5f));
-            hp -= 20f;
+            hp -= playerCtrl.GetDamage();
             if (hp<= 0f)
             {
                 StartDeath();
