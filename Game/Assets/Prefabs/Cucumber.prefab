@@ -336,8 +336,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   knockbackDistance: 10
   hitboxCooldown: 0.3
-  startingHp: 100
+  expWorth: 18
+  startingHp: 20
   maxSpeed: 3
+  playerCtrl: {fileID: 0}
   healthBar: {fileID: 7007592622239206600}
   healthBarBackground: {fileID: 6842558553720703035}
 --- !u!50 &943081644

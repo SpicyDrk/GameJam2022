@@ -7,23 +7,23 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] GameObject popper, cucumber, player;
     private float minX, maxX, minY, maxY, extendedBounds = 3f;
 
+
     private float timeSinceLastEnemy = 0f;
     private void Awake()
     {
-        //Instantiate(popper, Vector3.zero, Quaternion.identity);
         SetScreenBounds();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (timeSinceLastEnemy > .05f)
+        var liveEnemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
+        if (timeSinceLastEnemy > .1f & liveEnemyCount < 4)
         {
             var spawnSides = new string[] { "left", "right", "up", "down" };
             var sideSelection = spawnSides[Random.Range(0, spawnSides.Length)];
             var playerLoc = new Vector2(player.transform.position.x, player.transform.position.y);
-            Vector3 spawnLoc = Vector3.zero;
-            spawnLoc = sideSelection switch
+            Vector3 spawnLoc = sideSelection switch
             {
                 "left" => new Vector3(playerLoc.x + minX, Random.Range(minY  + 1f, maxY - 1f) + playerLoc.y, 1f),
                 "right" => new Vector3(playerLoc.x + maxX, Random.Range(minY + 1f, maxY  - 1f) + playerLoc.y, 1f),

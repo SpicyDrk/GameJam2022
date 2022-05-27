@@ -12,12 +12,14 @@ public class EnemyController : MonoBehaviour
     private Animator anim;
     private CircleCollider2D cCollider;
     private GameObject player;
+    private SoundManager soundManager;
     
 
     private float timeToLiveAfterDeath = 3f;
 
     public float knockbackDistance = 10f;
     public float hitboxCooldown = 0.3f;
+    public float expWorth = 10f;
 
     [SerializeField] 
     public float startingHp = 100f;
@@ -33,7 +35,7 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        soundManager = FindObjectOfType(typeof(SoundManager)) as SoundManager;
         player = GameObject.FindGameObjectWithTag("Player");
         playerCtrl = player.GetComponent<PlayerController>();
         SetScreenBounds();        
@@ -57,6 +59,7 @@ public class EnemyController : MonoBehaviour
             {
                 StartDeath();
             }
+            soundManager.EnemyHitSound();
             UpdateHealthBar();
         }
     }
@@ -79,7 +82,7 @@ public class EnemyController : MonoBehaviour
         healthBar.SetActive(false);
         healthBarBackground.SetActive(false);
         sr.material.SetFloat("_FlashAmount", 0f);
-        playerController.GainExp(10f);
+        playerController.GainExp(expWorth);
     }
 
     void Update()

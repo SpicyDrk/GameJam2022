@@ -6,7 +6,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] UIManager uiManager;
-    [SerializeField] GameObject slashGO;
+    [SerializeField] SoundManager soundManager;
+    [SerializeField] GameObject slashGO, attackBox;
     public float moveSpeed = 5f;
 
     public Rigidbody2D rb;
@@ -38,6 +39,7 @@ public class PlayerController : MonoBehaviour
     {
         maxHp = hp;
         uiManager = FindObjectOfType(typeof(UIManager)) as UIManager;
+        soundManager = FindObjectOfType(typeof(SoundManager)) as SoundManager;
         anim = GetComponent<Animator>();
     }
 
@@ -45,6 +47,7 @@ public class PlayerController : MonoBehaviour
     {
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
+        UpdateAttackBox();
         if (Input.GetMouseButton(0))
         {
             StartSlash();
@@ -79,12 +82,22 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void UpdateAttackBox()
+    {
+        Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        attackBox.transform.position = player.gameObject.transform.position + (rotation * (Vector3.right));
+        attackBox.transform.rotation = rotation;
+    }
+
     private void StartSlash()
     {
         if (attackOnCooldown)
         {
             return;
         }
+        soundManager.PlayerAttackSound();
         attackOnCooldown = true;
         Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
@@ -122,6 +135,7 @@ public class PlayerController : MonoBehaviour
         if (currentExp > expToLevel)
         {
             expPct = LevelUp();
+            soundManager.PlayLevelUpSound();
         }  
         else
         {
@@ -137,7 +151,6 @@ public class PlayerController : MonoBehaviour
     {
         currentExp -= expToLevel;
         expToLevel *= expScaling;
-        attackDamage = 100;
         uiManager.LevelUp();
         return currentExp / expToLevel;
     }
@@ -147,11 +160,12 @@ public class PlayerController : MonoBehaviour
     }
     public void LevelUpAtkSpd()
     {
-        attackDamage *= .85f;
+        swingTimer *= .85f;
     }
     public void LevelUpRange()
     {
         slashGO.transform.localScale = Vector3.Scale(slashGO.transform.localScale, new Vector3(1.1f, 1.1f, 1f));
+        attackBox.transform.localScale = Vector3.Scale(attackBox.transform.localScale, new Vector3(1.1f, 1.1f, 1f));
     }
     public void LevelUpHp()
     {
