@@ -211,6 +211,90 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: PopperDeath_1
+      rect:
+        serializedVersion: 2
+        x: 222
+        y: 1370
+        width: 200
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3655114cb5d91d34883f48e38cbe08a0
+      internalID: -1136124260
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PopperDeath_2
+      rect:
+        serializedVersion: 2
+        x: 211
+        y: 1277
+        width: 200
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6931d0d3e355a204ab57201f0e3e85bb
+      internalID: 732942898
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PopperDeath_3
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 1184
+        width: 200
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d143f733d9475cb42a11ce9736303cde
+      internalID: 552076125
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PopperDeath_4
+      rect:
+        serializedVersion: 2
+        x: 213
+        y: 1088
+        width: 200
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 65bb9b7b03f63a2419e7495cf8f1a9d3
+      internalID: -1662330284
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -225,8 +309,12 @@ TextureImporter:
       Animations_1_5: 1450713117
       CucumberDeath_1: -1339020788
       CucumberDeath_2: 1908321264
+      PopperDeath_4: -1662330284
+      PopperDeath_3: 552076125
       CucumberDeath_4: -2122605542
       CucumberDeath_3: 1492557377
+      PopperDeath_1: -1136124260
+      PopperDeath_2: 732942898
       Animations_1_4: -1360456007
   spritePackingTag: 
   pSDRemoveMatte: 0

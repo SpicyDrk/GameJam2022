@@ -12,16 +12,20 @@ public class EnemyController : MonoBehaviour
     private Animator anim;
     private CircleCollider2D cCollider;
     private GameObject player;
+    private SoundManager soundManager;
+    
 
     private float timeToLiveAfterDeath = 3f;
 
     public float knockbackDistance = 10f;
     public float hitboxCooldown = 0.3f;
+    public float expWorth = 10f;
 
     [SerializeField] 
     public float startingHp = 100f;
     public float maxSpeed = 3f;
 
+    [SerializeField] PlayerController playerCtrl;
     [SerializeField] GameObject healthBar, healthBarBackground;
     private float hp;
 
@@ -31,8 +35,10 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SetScreenBounds();
+        soundManager = FindObjectOfType(typeof(SoundManager)) as SoundManager;
         player = GameObject.FindGameObjectWithTag("Player");
+        playerCtrl = player.GetComponent<PlayerController>();
+        SetScreenBounds();        
         playerController = player.GetComponent<PlayerController>();
         hp = startingHp;
         sr = GetComponent<SpriteRenderer>();
@@ -48,11 +54,12 @@ public class EnemyController : MonoBehaviour
             sr.material.SetFloat("_FlashAmount", 1f);
             timeSinceLastHit = 0f;
             transform.position = Vector3.MoveTowards(transform.position, player.transform.position, maxSpeed * Time.deltaTime * knockbackDistance * Random.Range(-0.5f, -1.5f));
-            hp -= 20f;
+            hp -= playerCtrl.GetDamage();
             if (hp<= 0f)
             {
                 StartDeath();
             }
+            soundManager.EnemyHitSound();
             UpdateHealthBar();
         }
     }
@@ -75,7 +82,7 @@ public class EnemyController : MonoBehaviour
         healthBar.SetActive(false);
         healthBarBackground.SetActive(false);
         sr.material.SetFloat("_FlashAmount", 0f);
-        playerController.GainExp(10f);
+        playerController.GainExp(expWorth);
     }
 
     void Update()
@@ -124,17 +131,17 @@ public class EnemyController : MonoBehaviour
             var randomyY = Random.Range(minY + transform.position.y + 1f, maxY + transform.position.y - 1f);
             transform.position = new Vector2(maxX + player.transform.position.x -1f, randomyY);
         }
-        if (transform.position.x - player.transform.position.x > maxX)
+         else if (transform.position.x - player.transform.position.x > maxX)
         {
             var randomyY = Random.Range(minY + transform.position.y + 1f, maxY + transform.position.y-1f);
             transform.position = new Vector2(minX + player.transform.position.x + 1f, randomyY);
         }
-        if (transform.position.y - player.transform.position.y < minY)
+        else if (transform.position.y - player.transform.position.y < minY)
         {
             var randomX = Random.Range(minX + transform.position.x + 1f, maxX + transform.position.x - 1f);
             transform.position = new Vector2(randomX, maxY + player.transform.position.y - 1f);
         }
-        if (transform.position.y - player.transform.position.y > maxY)
+        else if (transform.position.y - player.transform.position.y > maxY)
         {
             var randomX = Random.Range(minX + transform.position.x + 1f, maxX + transform.position.x - 1f);
             transform.position = new Vector2(randomX, minY + player.transform.position.y + 1f);
@@ -162,9 +169,9 @@ public class EnemyController : MonoBehaviour
     void SetScreenBounds()
     {
         Vector3 bounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
-        maxX = bounds.x + extendedBounds;
-        minX = -bounds.x - extendedBounds;
-        minY = -bounds.y - extendedBounds;
-        maxY = bounds.y + extendedBounds;
+        maxX = bounds.x + extendedBounds - player.transform.position.x;
+        minX = -bounds.x - extendedBounds + player.transform.position.x;
+        minY = -bounds.y - extendedBounds + player.transform.position.y;
+        maxY = bounds.y + extendedBounds - player.transform.position.y;
     }
 }

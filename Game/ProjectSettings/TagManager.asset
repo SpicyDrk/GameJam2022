@@ -44,3 +44,6 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: FrontSprite
+    uniqueID: 373386131
+    locked: 0
