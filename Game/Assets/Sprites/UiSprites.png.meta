@@ -211,6 +211,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: UnknownCat
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 889
+        width: 118
+        height: 109
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7198cfb361edfa9488976942bc0ab0ca
+      internalID: 1310949910
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -234,6 +255,7 @@ TextureImporter:
       UiSprites_3: 1162061814
       UiSprites_5: 646960670
       UiSprites_10: 36973436
+      UnknownCat: 1310949910
       UiSprites_8: -2140470282
       UiSprites_11: 1950552352
       RNG: -1417489527

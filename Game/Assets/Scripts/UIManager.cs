@@ -15,7 +15,7 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI atkVal, atkSpdVal, rangeVal, hpVal;
 
-    [SerializeField] Button atkBtn, atkSpdBtn, rangeBtn, hpButton, restartButton;
+    [SerializeField] Button atkBtn, atkSpdBtn, rangeBtn, hpButton, restartButton, playButton;
 
     [SerializeField] Image greyScreen, pauseMenuImage;
 
@@ -36,6 +36,7 @@ public class UIManager : MonoBehaviour
         playerCtrl = player.GetComponent<PlayerController>();
         hp = 100;
         maxHp = 100;
+        Pause();
     }
     private void Start()
     {
@@ -62,6 +63,7 @@ public class UIManager : MonoBehaviour
     {
         ShowGreyScreen();
         pauseMenuImage.gameObject.SetActive(true);
+        playButton.gameObject.SetActive(true);
         Time.timeScale = 0f;
         gameIsPaused = true;
     }
@@ -69,6 +71,7 @@ public class UIManager : MonoBehaviour
     {
         HideGreyScreen();
         pauseMenuImage.gameObject.SetActive(false);
+        playButton.gameObject.SetActive(false);
         Time.timeScale = 1f;
         gameIsPaused = false;
     }
