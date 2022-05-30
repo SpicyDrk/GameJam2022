@@ -8,6 +8,8 @@ public class SoundManager : MonoBehaviour
     public AudioClip[] slashSources;
     public AudioClip[] enemyHitSources;
     public AudioClip levelUpSound;
+    public AudioClip deathMusic;
+    public AudioSource musicSource;
     [SerializeField] GameObject slashSound;
 
     // Start is called before the first frame update
@@ -34,5 +36,12 @@ public class SoundManager : MonoBehaviour
     public void PlayLevelUpSound()
     {
         soundSource.PlayOneShot(levelUpSound);
+    }
+
+    public void PlayDeathMusic()
+    {
+        musicSource.Stop();
+        musicSource.clip = deathMusic;
+        musicSource.Play();
     }
 }

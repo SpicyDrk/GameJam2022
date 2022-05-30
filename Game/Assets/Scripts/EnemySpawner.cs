@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] GameObject popper, cucumber, player;
+    [SerializeField] GameObject player;
+    [SerializeField] GameObject[] enemyPrefabs;
     private float minX, maxX, minY, maxY, extendedBounds = 3f;
-
-
     private float timeSinceLastEnemy = 0f;
+    private int round = 1;
+
     private void Awake()
     {
         SetScreenBounds();
@@ -18,7 +19,7 @@ public class EnemySpawner : MonoBehaviour
     void Update()
     {
         var liveEnemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
-        if (timeSinceLastEnemy > .1f & liveEnemyCount < 4)
+        if (timeSinceLastEnemy > .5f & liveEnemyCount < 5 + 5* round)
         {
             var spawnSides = new string[] { "left", "right", "up", "down" };
             var sideSelection = spawnSides[Random.Range(0, spawnSides.Length)];
@@ -31,7 +32,8 @@ public class EnemySpawner : MonoBehaviour
                 "down" => new Vector3(Random.Range(minX + 1f, maxX - 1f) + playerLoc.x, playerLoc.y + minY, 1f),
                 _ => new Vector3(player.transform.position.x + minX, player.transform.position.y, 1f),
             };
-            Instantiate(popper, spawnLoc, Quaternion.identity);
+            var enemyType = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
+            Instantiate(enemyType, spawnLoc, Quaternion.identity);
             timeSinceLastEnemy = 0f;
         }
         timeSinceLastEnemy += Time.deltaTime;
@@ -45,4 +47,8 @@ public class EnemySpawner : MonoBehaviour
         maxY = bounds.y + extendedBounds;
     }
 
+    public void SetRound(int round)
+    {
+        this.round = round;
+    }
 }

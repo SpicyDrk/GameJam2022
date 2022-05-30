@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] SoundManager soundManager;
     [SerializeField] GameObject slashGO, attackBox;
     public float moveSpeed = 5f;
+    public EnemySpawner enemySpawner;
 
     public Rigidbody2D rb;
     Vector2 movement;
@@ -22,7 +24,10 @@ public class PlayerController : MonoBehaviour
 
     private float timeSinceLastAttack = 10f;
     private bool attackOnCooldown = false;
+    private AudioSource audioSource;
+    [SerializeField] AudioClip meow;
 
+    public bool playerIsDead = false;
 
     public float attackDuration = 0.1f;
     public float swingTimer = 2f;    
@@ -40,7 +45,9 @@ public class PlayerController : MonoBehaviour
         maxHp = hp;
         uiManager = FindObjectOfType(typeof(UIManager)) as UIManager;
         soundManager = FindObjectOfType(typeof(SoundManager)) as SoundManager;
+        enemySpawner = FindObjectOfType(typeof(EnemySpawner)) as EnemySpawner;
         anim = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>(); 
     }
 
     private void Update()
@@ -54,6 +61,7 @@ public class PlayerController : MonoBehaviour
         }
         CheckSlash();
         timeSinceLastDamaged += Time.deltaTime;
+        
     }
 
     // Update is called once per frame
@@ -69,17 +77,33 @@ public class PlayerController : MonoBehaviour
     private void LateUpdate()
     {
         UpdateSwingTimer();
+        
     }
 
     private void OnTriggerStay2D(Collider2D target)
     {
         if (target.gameObject.CompareTag("Enemy") && timeSinceLastDamaged > playerHitCooldown)
         {
-            var damageAmmount = 10f; //TODO Enemy damage varies?
+            var damageAmmount = 10f;
             hp = (hp - damageAmmount) <= 0f ? 0f : hp - damageAmmount;
             uiManager.SetHp(hp);
             timeSinceLastDamaged = 0f;
+            audioSource.pitch = Random.Range(0.8f, 1.4f);
+            audioSource.PlayOneShot(meow);
+
+            if (hp == 0){
+                Death();
+            }
         }
+    }
+
+    private void Death()
+    {
+        playerIsDead = true;
+        enabled = false;
+        enemySpawner.enabled = false;
+        soundManager.PlayDeathMusic();
+        uiManager.PlayerDied();
     }
 
     private void UpdateAttackBox()
@@ -132,7 +156,7 @@ public class PlayerController : MonoBehaviour
     {
         currentExp += expGained;
         float expPct;
-        if (currentExp > expToLevel)
+        if (currentExp >= expToLevel)
         {
             expPct = LevelUp();
             soundManager.PlayLevelUpSound();
@@ -156,7 +180,7 @@ public class PlayerController : MonoBehaviour
     }
     public void LevelUpAtk()
     {
-        attackDamage *= 1.1f;
+        attackDamage *= 1.15f;
     }
     public void LevelUpAtkSpd()
     {
@@ -172,7 +196,11 @@ public class PlayerController : MonoBehaviour
         var oldMaxHp = maxHp;
         maxHp *= 1.1f;
         maxHp = MathF.Floor(maxHp);
-        hp += (oldMaxHp-maxHp) + 30f;
+        hp += (oldMaxHp-maxHp) + 0.3f*maxHp;
+        if (hp > maxHp)
+        {
+            hp = maxHp;
+        }
         uiManager.SetHp(hp, maxHp);
     }
 

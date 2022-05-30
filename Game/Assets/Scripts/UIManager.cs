@@ -1,22 +1,34 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] private RectTransform hpBar, flashBar, expBar;
+    [SerializeField] private RectTransform hpBar, flashBar, expBar, roundBar;
     PlayerController playerCtrl;
+    EnemySpawner enemySpawner;
     private float hp;
     private float maxHp;
-    [SerializeField] TextMeshProUGUI hpText, expText, roundText;
+    [SerializeField] TextMeshProUGUI hpText, expText, roundText, enemiesVanquishedText;
 
     [SerializeField] TextMeshProUGUI atkVal, atkSpdVal, rangeVal, hpVal;
 
-    [SerializeField] Button atkBtn, atkSpdBtn, rangeBtn, hpButton;
+    [SerializeField] Button atkBtn, atkSpdBtn, rangeBtn, hpButton, restartButton;
 
-    
+    [SerializeField] Image greyScreen, pauseMenuImage;
+
+    private int enemiesVanquished = 0;
+
+    private int levelUps = 1;
+    private int roundKillsAdditive = 5;
+
+    private int round = 1;
+    private int killsPerRound = 15;
+    private int killsForNextRound = 15;
+    private int previousKillsNeeded = 0;
+    public bool gameIsPaused = true;
 
     private void Awake()
     {
@@ -28,6 +40,37 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         atkSpdVal.text = $"{playerCtrl.swingTimer.ToString().PadRight(4,'0')[..4]}";
+        enemySpawner = FindObjectOfType(typeof(EnemySpawner)) as EnemySpawner;
+    }
+
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (gameIsPaused)
+            {
+                Resume();
+            }
+            else
+            {
+                Pause();
+            }
+        }
+    }
+
+    public void Pause()
+    {
+        ShowGreyScreen();
+        pauseMenuImage.gameObject.SetActive(true);
+        Time.timeScale = 0f;
+        gameIsPaused = true;
+    }
+    public void Resume()
+    {
+        HideGreyScreen();
+        pauseMenuImage.gameObject.SetActive(false);
+        Time.timeScale = 1f;
+        gameIsPaused = false;
     }
 
     public void SetHp(float hp, float? maxHp = null)
@@ -39,7 +82,7 @@ public class UIManager : MonoBehaviour
         StartCoroutine(HpFlashAnimation(this.hp, hp));
         this.hp = hp;
         hpBar.localScale = new Vector3(hp / this.maxHp, 1f, 1f);
-        hpText.text = $"{hp}/{this.maxHp}";
+        hpText.text = $"{Mathf.Floor(hp)}/{this.maxHp}";
     }
 
     private IEnumerator HpFlashAnimation(float hpStart, float hpEnd)
@@ -70,6 +113,7 @@ public class UIManager : MonoBehaviour
 
     public void LevelUp()
     {
+        levelUps++;
         atkBtn.gameObject.SetActive(true);
         atkSpdBtn.gameObject.SetActive(true);
         rangeBtn.gameObject.SetActive(true);
@@ -78,6 +122,11 @@ public class UIManager : MonoBehaviour
 
     private void DisableButtons()
     {
+        levelUps--;
+        if (levelUps > 0)
+        {
+            return;
+        }
         atkBtn.gameObject.SetActive(false);
         atkSpdBtn.gameObject.SetActive(false);
         rangeBtn.gameObject.SetActive(false);
@@ -111,6 +160,42 @@ public class UIManager : MonoBehaviour
 
     public void PlayerDied()
     {
-
+        ShowGreyScreen();
+        ShowRestartButton();
     }
+
+    private void ShowRestartButton()
+    {
+        restartButton.gameObject.SetActive(true);
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene("GamePlay");
+    }
+
+    private void ShowGreyScreen()
+    {
+        greyScreen.gameObject.SetActive(true);
+    }
+    private void HideGreyScreen()
+    {
+        greyScreen.gameObject.SetActive(false);
+    }
+
+    public void EnemyKilled()
+    {
+        enemiesVanquished++;
+        enemiesVanquishedText.text = enemiesVanquished.ToString();
+        if (enemiesVanquished >= killsForNextRound)
+        {
+            previousKillsNeeded = enemiesVanquished;
+            round++;
+            killsForNextRound += killsPerRound + roundKillsAdditive;
+            roundText.text = round.ToString();
+            enemySpawner.SetRound(round);
+        }
+        roundBar.localScale = new Vector3((enemiesVanquished - (float)previousKillsNeeded) / (killsForNextRound - (float)previousKillsNeeded), 1f, 1f);
+    }
+
 }

@@ -13,7 +13,8 @@ public class EnemyController : MonoBehaviour
     private CircleCollider2D cCollider;
     private GameObject player;
     private SoundManager soundManager;
-    
+    private PlayerController playerManager;
+    private UIManager uiManager;
 
     private float timeToLiveAfterDeath = 3f;
 
@@ -28,6 +29,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] PlayerController playerCtrl;
     [SerializeField] GameObject healthBar, healthBarBackground;
     private float hp;
+    public int roundNum;
 
     private float minX, maxX, minY, maxY, extendedBounds = 3f;
 
@@ -36,6 +38,8 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         soundManager = FindObjectOfType(typeof(SoundManager)) as SoundManager;
+        playerManager = FindObjectOfType(typeof(PlayerController)) as PlayerController;
+        uiManager = FindObjectOfType(typeof(UIManager)) as UIManager;
         player = GameObject.FindGameObjectWithTag("Player");
         playerCtrl = player.GetComponent<PlayerController>();
         SetScreenBounds();        
@@ -83,16 +87,22 @@ public class EnemyController : MonoBehaviour
         healthBarBackground.SetActive(false);
         sr.material.SetFloat("_FlashAmount", 0f);
         playerController.GainExp(expWorth);
+        uiManager.EnemyKilled();
     }
 
     void Update()
     {
+        if (playerManager.playerIsDead)
+        {
+            enabled = false;
+        }
         if (dying)
         {
             timeToLiveAfterDeath -= Time.deltaTime;
             if (timeToLiveAfterDeath <= 0f)
             {
                 gameObject.SetActive(false);
+                Destroy(gameObject);
             }
             if (timeToLiveAfterDeath < 1f)
             {
